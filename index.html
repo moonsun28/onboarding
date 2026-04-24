@@ -185,6 +185,8 @@ tr:last-child td{border-bottom:none;}
 .ed-add-sec{font-size:12px;padding:6px 14px;border-radius:6px;border:1px dashed var(--bds);background:transparent;color:var(--t2);cursor:pointer;font-family:inherit;}
 .ed-save{height:36px;padding:0 20px;background:var(--gr);color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:500;font-family:inherit;cursor:pointer;}
 .ed-save:hover{opacity:.85;}
+.ed-move-btn{font-size:11px;padding:2px 6px;border-radius:4px;border:1px solid var(--bds);background:transparent;color:var(--t2);cursor:pointer;font-family:inherit;line-height:1.4;}
+.ed-move-btn:hover{background:var(--bg);}
 
 .pw-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:400;display:none;align-items:center;justify-content:center;}
 .pw-overlay.open{display:flex;}
@@ -738,12 +740,16 @@ function renderEditor(){
     <div class="ed-sec" id="edsec-${si}">
       <div class="ed-sec-hd">
         <div class="sec-dot" style="background:${sec.color};flex-shrink:0"></div>
+        <button class="ed-move-btn" onclick="edMoveSec(${si},-1)">↑</button>
+        <button class="ed-move-btn" onclick="edMoveSec(${si},1)">↓</button>
         <input class="ed-sec-name" value="${sec.title}" oninput="edSecs[${si}].title=this.value" placeholder="섹션 이름">
         <input type="color" value="${sec.color}" oninput="edSecs[${si}].color=this.value;this.previousElementSibling.previousElementSibling.style.background=this.value" style="width:28px;height:22px;border:none;background:none;cursor:pointer;padding:0;">
         <button class="ed-del-sec" onclick="edDelSec(${si})">섹션 삭제</button>
       </div>
       ${sec.items.map((item,ii)=>`
         <div class="ed-item-row">
+          <button class="ed-move-btn" onclick="edMoveItem(${si},${ii},-1)">↑</button>
+          <button class="ed-move-btn" onclick="edMoveItem(${si},${ii},1)">↓</button>
           <input class="ed-item-lbl" value="${item.l}" oninput="edSecs[${si}].items[${ii}].l=this.value" placeholder="항목 내용">
           <input class="ed-item-path" value="${item.p}" oninput="edSecs[${si}].items[${ii}].p=this.value" placeholder="메뉴 경로">
           <button class="ed-del-item" onclick="edDelItem(${si},${ii})">×</button>
@@ -751,6 +757,8 @@ function renderEditor(){
       <div class="ed-add-item"><button onclick="edAddItem(${si})">+ 항목 추가</button></div>
     </div>`).join("");
 }
+function edMoveSec(si,dir){const ni=si+dir;if(ni<0||ni>=edSecs.length)return;[edSecs[si],edSecs[ni]]=[edSecs[ni],edSecs[si]];renderEditor();}
+function edMoveItem(si,ii,dir){const ni=ii+dir;if(ni<0||ni>=edSecs[si].items.length)return;[edSecs[si].items[ii],edSecs[si].items[ni]]=[edSecs[si].items[ni],edSecs[si].items[ii]];renderEditor();}
 function edDelSec(si){if(!confirm("섹션 전체를 삭제합니까?"))return;edSecs.splice(si,1);renderEditor();}
 function edDelItem(si,ii){edSecs[si].items.splice(ii,1);renderEditor();}
 function edAddItem(si){
