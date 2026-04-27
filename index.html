@@ -188,6 +188,22 @@ tr:last-child td{border-bottom:none;}
 .ed-move-btn{font-size:11px;padding:2px 6px;border-radius:4px;border:1px solid var(--bds);background:transparent;color:var(--t2);cursor:pointer;font-family:inherit;line-height:1.4;}
 .ed-move-btn:hover{background:var(--bg);}
 
+/* survey */
+.survey{background:var(--sur);border:1px solid var(--bd);border-radius:var(--rl);padding:20px 24px;margin-top:10px;display:none;}
+.survey.show{display:block;}
+.survey-ttl{font-size:14px;font-weight:600;margin-bottom:4px;}
+.survey-sub{font-size:12px;color:var(--t3);margin-bottom:18px;line-height:1.6;}
+.sq{margin-bottom:20px;padding-bottom:20px;border-bottom:1px solid var(--bd);}
+.sq:last-child{margin-bottom:0;padding-bottom:0;border-bottom:none;}
+.sq-lbl{font-size:13px;font-weight:500;margin-bottom:10px;line-height:1.6;display:flex;align-items:flex-start;gap:8px;}
+.sq-num{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;min-width:20px;background:var(--gr);color:#fff;border-radius:50%;font-size:11px;font-weight:600;margin-top:1px;}
+.lk-row{display:flex;gap:6px;}
+.lk-btn{flex:1;padding:8px 4px;border-radius:6px;border:1px solid var(--bds);background:transparent;font-size:11px;color:var(--t2);cursor:pointer;font-family:inherit;text-align:center;line-height:1.5;transition:all .12s;}
+.lk-btn:hover{border-color:var(--grm);color:var(--grm);}
+.lk-btn.on{background:var(--gr);border-color:var(--gr);color:#fff;font-weight:500;}
+.sq-ta{width:100%;padding:8px 10px;border:1px solid var(--bds);border-radius:6px;font-size:12px;font-family:inherit;color:var(--t1);background:var(--bg);resize:vertical;min-height:64px;line-height:1.5;}
+.sq-ta:focus{outline:none;border-color:var(--grm);background:var(--sur);}
+
 .pw-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:400;display:none;align-items:center;justify-content:center;}
 .pw-overlay.open{display:flex;}
 .pw-box{background:var(--sur);border-radius:var(--rl);padding:28px 32px;width:320px;}
@@ -253,6 +269,55 @@ tr:last-child td{border-bottom:none;}
     </div>
   </div>
   <div id="cl-body"></div>
+
+  <div id="survey-wrap" class="survey">
+    <div class="survey-ttl">만족도 설문</div>
+    <div class="survey-sub">체크리스트 완료 후 아래 설문에 응답해 주세요. PMS 개선에 활용됩니다.</div>
+    <div class="sq">
+      <div class="sq-lbl"><span class="sq-num">1</span>PMS가 기존 업무 방식보다 효율적이라고 느끼십니까?</div>
+      <div class="lk-row" id="lk-1">
+        <button class="lk-btn" onclick="setLikert(1,1)">① 매우<br>그렇지않다</button>
+        <button class="lk-btn" onclick="setLikert(1,2)">② 그렇지<br>않다</button>
+        <button class="lk-btn" onclick="setLikert(1,3)">③ 보통</button>
+        <button class="lk-btn" onclick="setLikert(1,4)">④ 그렇다</button>
+        <button class="lk-btn" onclick="setLikert(1,5)">⑤ 매우<br>그렇다</button>
+      </div>
+    </div>
+    <div class="sq">
+      <div class="sq-lbl"><span class="sq-num">2</span>PMS 사용 후 업무 처리 속도가 개선되었다고 느끼십니까?</div>
+      <div class="lk-row" id="lk-2">
+        <button class="lk-btn" onclick="setLikert(2,1)">① 매우<br>그렇지않다</button>
+        <button class="lk-btn" onclick="setLikert(2,2)">② 그렇지<br>않다</button>
+        <button class="lk-btn" onclick="setLikert(2,3)">③ 보통</button>
+        <button class="lk-btn" onclick="setLikert(2,4)">④ 그렇다</button>
+        <button class="lk-btn" onclick="setLikert(2,5)">⑤ 매우<br>그렇다</button>
+      </div>
+    </div>
+    <div class="sq">
+      <div class="sq-lbl"><span class="sq-num">3</span>PMS가 반복 업무(청구서·공과금 등)를 줄여주고 있습니까?</div>
+      <div class="lk-row" id="lk-3">
+        <button class="lk-btn" onclick="setLikert(3,1)">① 매우<br>그렇지않다</button>
+        <button class="lk-btn" onclick="setLikert(3,2)">② 그렇지<br>않다</button>
+        <button class="lk-btn" onclick="setLikert(3,3)">③ 보통</button>
+        <button class="lk-btn" onclick="setLikert(3,4)">④ 그렇다</button>
+        <button class="lk-btn" onclick="setLikert(3,5)">⑤ 매우<br>그렇다</button>
+      </div>
+    </div>
+    <div class="sq">
+      <div class="sq-lbl"><span class="sq-num">4</span>빌딩케어 PMS 전반적인 사용 만족도는?</div>
+      <div class="lk-row" id="lk-4">
+        <button class="lk-btn" onclick="setLikert(4,1)">① 매우<br>그렇지않다</button>
+        <button class="lk-btn" onclick="setLikert(4,2)">② 그렇지<br>않다</button>
+        <button class="lk-btn" onclick="setLikert(4,3)">③ 보통</button>
+        <button class="lk-btn" onclick="setLikert(4,4)">④ 그렇다</button>
+        <button class="lk-btn" onclick="setLikert(4,5)">⑤ 매우<br>그렇다</button>
+      </div>
+    </div>
+    <div class="sq">
+      <div class="sq-lbl"><span class="sq-num">5</span>가장 불편하거나 개선이 필요한 점을 자유롭게 적어주세요.</div>
+      <textarea class="sq-ta" id="sq-5" placeholder="자유롭게 작성해 주세요..." oninput="onSurveyText(5,this.value)"></textarea>
+    </div>
+  </div>
 </div>
 </div>
 
@@ -378,7 +443,7 @@ let TOTAL=SECTIONS.reduce((a,s)=>a+s.items.length,0);
 let branch="",bd=mkDef(),saveTimer=null;
 
 function mkDef(){
-  const d={checks:{},issues:{},sectionMemos:{}};
+  const d={checks:{},issues:{},sectionMemos:{},survey:{likert:{},texts:{}}};
   SECTIONS.forEach((s,si)=>{
     s.items.forEach((_,ii)=>{d.checks[si+"-"+ii]="none";d.issues[si+"-"+ii]="";});
     d.sectionMemos[si]="";
@@ -397,18 +462,24 @@ function autoSave(){
   el.style.display="block";
   clearTimeout(el._t);
   el._t=setTimeout(()=>{el.style.display="none";},2000);
-  fetch(GAS,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({branch,checks:bd.checks,issues:bd.issues,sectionMemos:bd.sectionMemos}),mode:"no-cors"}).catch(()=>{});
+  fetch(GAS,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({branch,checks:bd.checks,issues:bd.issues,sectionMemos:bd.sectionMemos,survey:bd.survey}),mode:"no-cors"}).catch(()=>{});
 }
 
 function onBranchChange(){
   branch=document.getElementById("bsel").value;
   ["pl-ok","pl-sy","pl-er"].forEach(id=>pill(id,false));
-  if(!branch){document.getElementById("prog").style.display="none";document.getElementById("cl-body").innerHTML="";return;}
+  if(!branch){
+    document.getElementById("prog").style.display="none";
+    document.getElementById("cl-body").innerHTML="";
+    document.getElementById("survey-wrap").className="survey";
+    return;
+  }
   bd=mkDef();
   document.getElementById("prog").style.display="flex";
+  document.getElementById("survey-wrap").className="survey show";
   const local=localStorage.getItem("bc_"+branch);
-  if(local){try{const p=JSON.parse(local);bd.checks=Object.assign(bd.checks,p.checks||{});bd.issues=Object.assign(bd.issues,p.issues||{});bd.sectionMemos=Object.assign(bd.sectionMemos,p.sectionMemos||{});}catch(e){}}
-  renderCL();updateProg();
+  if(local){try{const p=JSON.parse(local);bd.checks=Object.assign(bd.checks,p.checks||{});bd.issues=Object.assign(bd.issues,p.issues||{});bd.sectionMemos=Object.assign(bd.sectionMemos,p.sectionMemos||{});if(p.survey){bd.survey.likert=Object.assign({},p.survey.likert||{});bd.survey.texts=Object.assign({},p.survey.texts||{});}}catch(e){}}
+  renderCL();updateProg();restoreSurvey();
   pill("pl-sy",true);
   fetch(GAS+"?t="+Date.now()).then(r=>r.json()).then(rows=>{
     pill("pl-sy",false);
@@ -417,7 +488,8 @@ function onBranchChange(){
       bd.checks=Object.assign(bd.checks,found.checks||{});
       bd.issues=Object.assign(bd.issues,found.issues||{});
       bd.sectionMemos=Object.assign(bd.sectionMemos,found.sectionMemos||{});
-      renderCL();updateProg();pill("pl-ok",true);setTimeout(()=>pill("pl-ok",false),2000);
+      if(found.survey){bd.survey.likert=Object.assign({},found.survey.likert||{});bd.survey.texts=Object.assign({},found.survey.texts||{});}
+      renderCL();updateProg();restoreSurvey();pill("pl-ok",true);setTimeout(()=>pill("pl-ok",false),2000);
     }
   }).catch(()=>pill("pl-sy",false));
 }
@@ -520,6 +592,22 @@ function updateProg(){
   document.getElementById("p-left").textContent=left;
   document.getElementById("pct-t").textContent=pct+"%";
   document.getElementById("pbar").style.width=pct+"%";
+}
+
+/* ══ 설문 ══ */
+function setLikert(qid,val){
+  bd.survey.likert[qid]=val;
+  document.querySelectorAll(`#lk-${qid} .lk-btn`).forEach((btn,i)=>{btn.className="lk-btn"+(i+1===val?" on":"");});
+  scheduleAutoSave();
+}
+function onSurveyText(qid,val){bd.survey.texts[qid]=val;scheduleAutoSave();}
+function restoreSurvey(){
+  [1,2,3,4].forEach(qid=>{
+    const val=bd.survey.likert[qid];
+    if(val)document.querySelectorAll(`#lk-${qid} .lk-btn`).forEach((btn,i)=>{btn.className="lk-btn"+(i+1===val?" on":"");});
+  });
+  const el=document.getElementById("sq-5");
+  if(el)el.value=bd.survey.texts[5]||"";
 }
 
 /* ══ 관리자 ══ */
@@ -625,6 +713,24 @@ function buildInsights(rows){
   return cards;
 }
 
+function buildSurveyCard(rows){
+  const submitted=rows.filter(r=>r.survey&&Object.keys(r.survey.likert||{}).length>0);
+  if(submitted.length===0)return`<div class="tc"><div class="tc-hd">만족도 설문 <span class="tc-sub">아직 응답 없음</span></div><div class="empty">제출된 설문 응답이 없습니다.</div></div>`;
+  const qLabels={1:"PMS 효율성",2:"업무 속도 개선",3:"반복 업무 감소",4:"전반적 만족도"};
+  const colors=["#ef4444","#f97316","#eab308","#84cc16","#22c55e"];
+  const lkRows=Object.entries(qLabels).map(([qid,label])=>{
+    const vals=submitted.map(r=>Number(r.survey.likert[qid])).filter(v=>v);
+    if(!vals.length)return`<tr><td>${label}</td><td colspan="3" style="color:var(--t3)">응답 없음</td></tr>`;
+    const avg=(vals.reduce((a,v)=>a+v,0)/vals.length).toFixed(1);
+    const dist=[1,2,3,4,5].map(v=>vals.filter(x=>x===v).length);
+    const bars=dist.map((cnt,i)=>`<span title="${i+1}점 ${cnt}명" style="display:inline-block;width:${cnt>0?Math.max(Math.round(cnt/vals.length*80),6):0}px;height:8px;background:${colors[i]};border-radius:2px;"></span>`).join("");
+    return`<tr><td style="font-weight:500">${label}</td><td><div style="display:flex;gap:2px;align-items:center">${bars}</div></td><td style="font-weight:600;color:var(--grm)">${avg}점</td><td style="color:var(--t3)">${vals.length}명</td></tr>`;
+  }).join("");
+  const texts=submitted.flatMap(r=>{const t=((r.survey.texts)||{})[5]||"";return t.trim()?[{branch:r.branch,text:t}]:[];});
+  const textHtml=texts.length===0?"":`<div class="tc-hd" style="border-top:1px solid var(--bd)">개선 의견 <span class="tc-sub">${texts.length}건</span></div><div class="il-wrap">${texts.map(x=>`<div class="il-item"><div class="il-br">${x.branch}</div><div class="il-tx">${x.text}</div></div>`).join("")}</div>`;
+  return`<div class="tc"><div class="tc-hd">만족도 설문 <span class="tc-sub">${submitted.length}/${BRANCHES.length}개 지점 응답</span></div><table><thead><tr><th>문항</th><th>분포</th><th>평균</th><th>응답</th></tr></thead><tbody>${lkRows}</tbody></table>${textHtml}</div>`;
+}
+
 function renderAdmin(rows){
   const now=new Date().toLocaleString("ko-KR",{month:"short",day:"numeric",hour:"2-digit",minute:"2-digit"});
   document.getElementById("adm-sub").textContent=now+" 기준 · "+rows.length+"/"+BRANCHES.length+"개 지점 제출";
@@ -712,7 +818,8 @@ function renderAdmin(rows){
     ).join("");
   const issCard=`<div class="tc"><div class="tc-hd">이슈 목록 <span class="tc-sub">항목 이슈 + 섹션 메모</span></div><div class="il-wrap">${issHtml}</div></div>`;
 
-  document.getElementById("adm-body").innerHTML=stats+insHtml+branchTable+sana+issCard;
+  const surveyCard=buildSurveyCard(rows);
+  document.getElementById("adm-body").innerHTML=stats+insHtml+branchTable+sana+surveyCard+issCard;
 }
 
 /* ══ 비밀번호 ══ */
