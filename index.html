@@ -294,7 +294,7 @@ tr:last-child td{border-bottom:none;}
       </div>
     </div>
     <div class="sq">
-      <div class="sq-lbl"><span class="sq-num">3</span>PMS가 반복 업무(청구서·공과금 등)를 줄여주고 있습니까?</div>
+      <div class="sq-lbl"><span class="sq-num">3</span>PMS가 반복 업무를 줄여주고 있습니까?</div>
       <div class="lk-row" id="lk-3">
         <button class="lk-btn" onclick="setLikert(3,1)">① 매우<br>그렇지않다</button>
         <button class="lk-btn" onclick="setLikert(3,2)">② 그렇지<br>않다</button>
@@ -316,6 +316,10 @@ tr:last-child td{border-bottom:none;}
     <div class="sq">
       <div class="sq-lbl"><span class="sq-num">5</span>가장 불편하거나 개선이 필요한 점을 자유롭게 적어주세요.</div>
       <textarea class="sq-ta" id="sq-5" placeholder="자유롭게 작성해 주세요..." oninput="onSurveyText(5,this.value)"></textarea>
+    </div>
+    <div class="sq">
+      <div class="sq-lbl"><span class="sq-num">6</span>가장 만족스러운 점을 자유롭게 적어주세요.</div>
+      <textarea class="sq-ta" id="sq-6" placeholder="자유롭게 작성해 주세요..." oninput="onSurveyText(6,this.value)"></textarea>
     </div>
   </div>
 </div>
@@ -606,8 +610,10 @@ function restoreSurvey(){
     const val=bd.survey.likert[qid];
     if(val)document.querySelectorAll(`#lk-${qid} .lk-btn`).forEach((btn,i)=>{btn.className="lk-btn"+(i+1===val?" on":"");});
   });
-  const el=document.getElementById("sq-5");
-  if(el)el.value=bd.survey.texts[5]||"";
+  const el5=document.getElementById("sq-5");
+  if(el5)el5.value=bd.survey.texts[5]||"";
+  const el6=document.getElementById("sq-6");
+  if(el6)el6.value=bd.survey.texts[6]||"";
 }
 
 /* ══ 관리자 ══ */
@@ -726,8 +732,11 @@ function buildSurveyCard(rows){
     const bars=dist.map((cnt,i)=>`<span title="${i+1}점 ${cnt}명" style="display:inline-block;width:${cnt>0?Math.max(Math.round(cnt/vals.length*80),6):0}px;height:8px;background:${colors[i]};border-radius:2px;"></span>`).join("");
     return`<tr><td style="font-weight:500">${label}</td><td><div style="display:flex;gap:2px;align-items:center">${bars}</div></td><td style="font-weight:600;color:var(--grm)">${avg}점</td><td style="color:var(--t3)">${vals.length}명</td></tr>`;
   }).join("");
-  const texts=submitted.flatMap(r=>{const t=((r.survey.texts)||{})[5]||"";return t.trim()?[{branch:r.branch,text:t}]:[];});
-  const textHtml=texts.length===0?"":`<div class="tc-hd" style="border-top:1px solid var(--bd)">개선 의견 <span class="tc-sub">${texts.length}건</span></div><div class="il-wrap">${texts.map(x=>`<div class="il-item"><div class="il-br">${x.branch}</div><div class="il-tx">${x.text}</div></div>`).join("")}</div>`;
+  const texts5=submitted.flatMap(r=>{const t=((r.survey.texts)||{})[5]||"";return t.trim()?[{branch:r.branch,text:t}]:[];});
+  const texts6=submitted.flatMap(r=>{const t=((r.survey.texts)||{})[6]||"";return t.trim()?[{branch:r.branch,text:t}]:[];});
+  const textHtml=
+    (texts5.length===0?"":(`<div class="tc-hd" style="border-top:1px solid var(--bd)">개선 의견 <span class="tc-sub">${texts5.length}건</span></div><div class="il-wrap">${texts5.map(x=>`<div class="il-item"><div class="il-br">${x.branch}</div><div class="il-tx">${x.text}</div></div>`).join("")}</div>`)) +
+    (texts6.length===0?"":(`<div class="tc-hd" style="border-top:1px solid var(--bd)">만족한 점 <span class="tc-sub">${texts6.length}건</span></div><div class="il-wrap">${texts6.map(x=>`<div class="il-item"><div class="il-br">${x.branch}</div><div class="il-tx">${x.text}</div></div>`).join("")}</div>`));
   return`<div class="tc"><div class="tc-hd">만족도 설문 <span class="tc-sub">${submitted.length}/${BRANCHES.length}개 지점 응답</span></div><table><thead><tr><th>문항</th><th>분포</th><th>평균</th><th>응답</th></tr></thead><tbody>${lkRows}</tbody></table>${textHtml}</div>`;
 }
 
