@@ -90,6 +90,26 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--t1);
 .intro-body b{color:var(--t1);font-weight:500;}
 .intro-tip{margin-top:10px;padding:10px 14px;background:var(--aml);border-radius:8px;font-size:12px;color:var(--am);line-height:1.7;}
 
+/* survey */
+.survey{background:var(--sur);border:1px solid var(--bd);border-radius:var(--rl);margin-bottom:10px;overflow:hidden;display:none;}
+.survey.show{display:block;}
+.survey-hd{display:flex;align-items:center;gap:9px;padding:12px 18px;border-bottom:1px solid var(--bd);background:var(--bg);}
+.survey-dot{width:8px;height:8px;border-radius:50%;background:#6366F1;flex-shrink:0;}
+.survey-ttl{font-size:13px;font-weight:600;flex:1;}
+.survey-body{padding:18px 20px;display:flex;flex-direction:column;gap:24px;}
+.sq{display:flex;flex-direction:column;gap:10px;}
+.sq-label{font-size:13px;font-weight:500;color:var(--t1);}
+.sq-sub{font-size:11px;color:var(--t3);margin-top:-6px;}
+.likert{display:flex;gap:8px;}
+.lk-btn{flex:1;display:flex;flex-direction:column;align-items:center;gap:5px;padding:10px 4px;border:1.5px solid var(--bds);border-radius:10px;background:transparent;cursor:pointer;font-family:inherit;font-size:16px;font-weight:600;color:var(--t3);transition:all .12s;line-height:1;}
+.lk-btn span{font-size:10px;font-weight:400;color:var(--t3);text-align:center;line-height:1.4;}
+.lk-btn:hover{border-color:#6366F1;color:#6366F1;}
+.lk-btn:hover span{color:#6366F1;}
+.lk-btn.on{background:#6366F1;border-color:#6366F1;color:#fff;}
+.lk-btn.on span{color:rgba(255,255,255,.85);}
+.sq-textarea{width:100%;padding:8px 10px;border:1px solid var(--bds);border-radius:6px;font-size:12px;font-family:inherit;color:var(--t1);background:var(--bg);resize:vertical;min-height:72px;line-height:1.5;}
+.sq-textarea:focus{outline:none;border-color:#6366F1;background:var(--sur);}
+
 /* admin */
 #av{display:none;}
 .adm-hd{background:var(--sur);border:1px solid var(--bd);border-radius:var(--rl);padding:16px 22px;margin-bottom:14px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;}
@@ -185,24 +205,6 @@ tr:last-child td{border-bottom:none;}
 .ed-add-sec{font-size:12px;padding:6px 14px;border-radius:6px;border:1px dashed var(--bds);background:transparent;color:var(--t2);cursor:pointer;font-family:inherit;}
 .ed-save{height:36px;padding:0 20px;background:var(--gr);color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:500;font-family:inherit;cursor:pointer;}
 .ed-save:hover{opacity:.85;}
-.ed-move-btn{font-size:11px;padding:2px 6px;border-radius:4px;border:1px solid var(--bds);background:transparent;color:var(--t2);cursor:pointer;font-family:inherit;line-height:1.4;}
-.ed-move-btn:hover{background:var(--bg);}
-
-/* survey */
-.survey{background:var(--sur);border:1px solid var(--bd);border-radius:var(--rl);padding:20px 24px;margin-top:10px;display:none;}
-.survey.show{display:block;}
-.survey-ttl{font-size:14px;font-weight:600;margin-bottom:4px;}
-.survey-sub{font-size:12px;color:var(--t3);margin-bottom:18px;line-height:1.6;}
-.sq{margin-bottom:20px;padding-bottom:20px;border-bottom:1px solid var(--bd);}
-.sq:last-child{margin-bottom:0;padding-bottom:0;border-bottom:none;}
-.sq-lbl{font-size:13px;font-weight:500;margin-bottom:10px;line-height:1.6;display:flex;align-items:flex-start;gap:8px;}
-.sq-num{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;min-width:20px;background:var(--gr);color:#fff;border-radius:50%;font-size:11px;font-weight:600;margin-top:1px;}
-.lk-row{display:flex;gap:6px;}
-.lk-btn{flex:1;padding:8px 4px;border-radius:6px;border:1px solid var(--bds);background:transparent;font-size:11px;color:var(--t2);cursor:pointer;font-family:inherit;text-align:center;line-height:1.5;transition:all .12s;}
-.lk-btn:hover{border-color:var(--grm);color:var(--grm);}
-.lk-btn.on{background:var(--gr);border-color:var(--gr);color:#fff;font-weight:500;}
-.sq-ta{width:100%;padding:8px 10px;border:1px solid var(--bds);border-radius:6px;font-size:12px;font-family:inherit;color:var(--t1);background:var(--bg);resize:vertical;min-height:64px;line-height:1.5;}
-.sq-ta:focus{outline:none;border-color:var(--grm);background:var(--sur);}
 
 .pw-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:400;display:none;align-items:center;justify-content:center;}
 .pw-overlay.open{display:flex;}
@@ -270,58 +272,83 @@ tr:last-child td{border-bottom:none;}
   </div>
   <div id="cl-body"></div>
 
-  <div id="survey-wrap" class="survey">
-    <div class="survey-ttl">만족도 설문</div>
-    <div class="survey-sub">체크리스트 완료 후 아래 설문에 응답해 주세요. PMS 개선에 활용됩니다.</div>
-    <div class="sq">
-      <div class="sq-lbl"><span class="sq-num">1</span>PMS가 기존 업무 방식보다 효율적이라고 느끼십니까?</div>
-      <div class="lk-row" id="lk-1">
-        <button class="lk-btn" onclick="setLikert(1,1)">① 매우<br>그렇지않다</button>
-        <button class="lk-btn" onclick="setLikert(1,2)">② 그렇지<br>않다</button>
-        <button class="lk-btn" onclick="setLikert(1,3)">③ 보통</button>
-        <button class="lk-btn" onclick="setLikert(1,4)">④ 그렇다</button>
-        <button class="lk-btn" onclick="setLikert(1,5)">⑤ 매우<br>그렇다</button>
+  <div class="survey" id="survey-wrap">
+    <div class="survey-hd">
+      <div class="survey-dot"></div>
+      <div class="survey-ttl">만족도 설문</div>
+      <span style="font-size:11px;color:var(--t3);margin-left:auto;">평가 목적이 아닌 개선 지원을 위한 설문입니다</span>
+    </div>
+    <div class="survey-body">
+
+      <!-- Q1 업무 효율 -->
+      <div class="sq">
+        <div class="sq-label">1. 빌딩케어 PMS가 기존 업무 방식보다 효율적이라고 느끼십니까?</div>
+        <div class="sq-sub">기존 방식(엑셀, 수기 등) 대비 체감 효율을 선택해주세요.</div>
+        <div class="likert" id="lk-1">
+          <button class="lk-btn" onclick="setLikert('1',1)">①<span>매우<br>그렇지 않다</span></button>
+          <button class="lk-btn" onclick="setLikert('1',2)">②<span>그렇지<br>않다</span></button>
+          <button class="lk-btn" onclick="setLikert('1',3)">③<span>보통</span></button>
+          <button class="lk-btn" onclick="setLikert('1',4)">④<span>그렇다</span></button>
+          <button class="lk-btn" onclick="setLikert('1',5)">⑤<span>매우<br>그렇다</span></button>
+        </div>
       </div>
-    </div>
-    <div class="sq">
-      <div class="sq-lbl"><span class="sq-num">2</span>PMS 사용 후 업무 처리 속도가 개선되었다고 느끼십니까?</div>
-      <div class="lk-row" id="lk-2">
-        <button class="lk-btn" onclick="setLikert(2,1)">① 매우<br>그렇지않다</button>
-        <button class="lk-btn" onclick="setLikert(2,2)">② 그렇지<br>않다</button>
-        <button class="lk-btn" onclick="setLikert(2,3)">③ 보통</button>
-        <button class="lk-btn" onclick="setLikert(2,4)">④ 그렇다</button>
-        <button class="lk-btn" onclick="setLikert(2,5)">⑤ 매우<br>그렇다</button>
+
+      <!-- Q2 업무 속도 -->
+      <div class="sq">
+        <div class="sq-label">2. PMS 사용 후 업무 처리 속도가 개선되었다고 느끼십니까?</div>
+        <div class="sq-sub">입주·계약·정산 등 반복 업무 기준으로 답해주세요.</div>
+        <div class="likert" id="lk-2">
+          <button class="lk-btn" onclick="setLikert('2',1)">①<span>매우<br>그렇지 않다</span></button>
+          <button class="lk-btn" onclick="setLikert('2',2)">②<span>그렇지<br>않다</span></button>
+          <button class="lk-btn" onclick="setLikert('2',3)">③<span>보통</span></button>
+          <button class="lk-btn" onclick="setLikert('2',4)">④<span>그렇다</span></button>
+          <button class="lk-btn" onclick="setLikert('2',5)">⑤<span>매우<br>그렇다</span></button>
+        </div>
       </div>
-    </div>
-    <div class="sq">
-      <div class="sq-lbl"><span class="sq-num">3</span>PMS가 반복 업무를 줄여주고 있습니까?</div>
-      <div class="lk-row" id="lk-3">
-        <button class="lk-btn" onclick="setLikert(3,1)">① 매우<br>그렇지않다</button>
-        <button class="lk-btn" onclick="setLikert(3,2)">② 그렇지<br>않다</button>
-        <button class="lk-btn" onclick="setLikert(3,3)">③ 보통</button>
-        <button class="lk-btn" onclick="setLikert(3,4)">④ 그렇다</button>
-        <button class="lk-btn" onclick="setLikert(3,5)">⑤ 매우<br>그렇다</button>
+
+      <!-- Q3 반복업무 감소 -->
+      <div class="sq">
+        <div class="sq-label">3. PMS가 반복 업무를 줄여주고 있습니까?</div>
+        <div class="sq-sub">자동화·일괄 처리 기능의 체감 효과를 선택해주세요.</div>
+        <div class="likert" id="lk-3">
+          <button class="lk-btn" onclick="setLikert('3',1)">①<span>매우<br>그렇지 않다</span></button>
+          <button class="lk-btn" onclick="setLikert('3',2)">②<span>그렇지<br>않다</span></button>
+          <button class="lk-btn" onclick="setLikert('3',3)">③<span>보통</span></button>
+          <button class="lk-btn" onclick="setLikert('3',4)">④<span>그렇다</span></button>
+          <button class="lk-btn" onclick="setLikert('3',5)">⑤<span>매우<br>그렇다</span></button>
+        </div>
       </div>
-    </div>
-    <div class="sq">
-      <div class="sq-lbl"><span class="sq-num">4</span>빌딩케어 PMS 전반적인 사용 만족도는?</div>
-      <div class="lk-row" id="lk-4">
-        <button class="lk-btn" onclick="setLikert(4,1)">① 매우<br>그렇지않다</button>
-        <button class="lk-btn" onclick="setLikert(4,2)">② 그렇지<br>않다</button>
-        <button class="lk-btn" onclick="setLikert(4,3)">③ 보통</button>
-        <button class="lk-btn" onclick="setLikert(4,4)">④ 그렇다</button>
-        <button class="lk-btn" onclick="setLikert(4,5)">⑤ 매우<br>그렇다</button>
+
+      <!-- Q4 전반 만족도 -->
+      <div class="sq">
+        <div class="sq-label">4. 빌딩케어 PMS 전반적인 사용 만족도는 어떻습니까?</div>
+        <div class="sq-sub">현재까지 사용해본 경험을 종합적으로 평가해주세요.</div>
+        <div class="likert" id="lk-4">
+          <button class="lk-btn" onclick="setLikert('4',1)">①<span>매우<br>불만족</span></button>
+          <button class="lk-btn" onclick="setLikert('4',2)">②<span>불만족</span></button>
+          <button class="lk-btn" onclick="setLikert('4',3)">③<span>보통</span></button>
+          <button class="lk-btn" onclick="setLikert('4',4)">④<span>만족</span></button>
+          <button class="lk-btn" onclick="setLikert('4',5)">⑤<span>매우<br>만족</span></button>
+        </div>
       </div>
-    </div>
-    <div class="sq">
-      <div class="sq-lbl"><span class="sq-num">5</span>가장 불편하거나 개선이 필요한 점을 자유롭게 적어주세요.</div>
-      <textarea class="sq-ta" id="sq-5" placeholder="자유롭게 작성해 주세요..." oninput="onSurveyText(5,this.value)"></textarea>
-    </div>
-    <div class="sq">
-      <div class="sq-lbl"><span class="sq-num">6</span>가장 만족스러운 점을 자유롭게 적어주세요.</div>
-      <textarea class="sq-ta" id="sq-6" placeholder="자유롭게 작성해 주세요..." oninput="onSurveyText(6,this.value)"></textarea>
+
+      <!-- Q5 주관식 - 불편한 점 -->
+      <div class="sq">
+        <div class="sq-label">5. 가장 불편하거나 개선이 필요한 점은 무엇입니까?</div>
+        <div class="sq-sub">빌딩케어에 직접 전달될 수 있으니 자유롭게 작성해주세요.</div>
+        <textarea class="sq-textarea" id="sq-5" placeholder="예) 특정 메뉴가 찾기 어렵다, 이런 기능이 있었으면 한다 등" oninput="onSurveyText('5',this.value)"></textarea>
+      </div>
+
+      <!-- Q6 주관식 - 만족스러운 점 -->
+      <div class="sq">
+        <div class="sq-label">6. 가장 만족스러운 점을 자유롭게 적어주세요.</div>
+        <div class="sq-sub">좋았던 기능이나 경험을 편하게 작성해주세요.</div>
+        <textarea class="sq-textarea" id="sq-6" placeholder="예) 청구서 일괄 발송이 편하다, 계약 현황이 한눈에 보여서 좋다 등" oninput="onSurveyText('6',this.value)"></textarea>
+      </div>
+
     </div>
   </div>
+
 </div>
 </div>
 
@@ -379,63 +406,70 @@ const SECTIONS_KEY = "bc_sections_v1";
 const DEFAULT_SECTIONS = [
   {title:"건물관리",color:"#185FA5",items:[
     {l:"전체 호실 현황(공실·입실·만기임박)이 실제와 일치하는지 확인하셨습니까?",p:"건물관리 > 건물 전체 현황"},
-    {l:"신규 계약을 올바르게 등록해보셨습니까?",p:"건물관리 > 호실 > 계약 추가"},
-    {l:"임차인 정보를 정확히 입력해보셨습니까?",p:"건물관리 > 임차인 정보"},
-    {l:"임차인이 외국인인 경우 '외국인' 설정 후 정보를 입력해보셨습니까?",p:"건물관리 > 호실 > 임자인 정보"},
-    {l:"수신인 정보(수신인·연락처·이메일)를 입력해보셨습니까?",p:"건물관리 > 호실 >  계약서 정보"},
-    {l:"계약 기간(시작일·종료일)을 올바르게 입력해보셨습니까?",p:"건물관리 > 호실 > 계약서 정보"},
-    {l:"보증금·임대료·관리비 금액 및 옵션을 정확히 입력해보셨습니까?",p:"건물관리 > 호실 > 계약서 정보"},
+    {l:"신규 계약을 등록해보셨습니까?",p:"건물관리 > 호실 > 계약 추가"},
+    {l:"임차인이 외국인인 경우 '외국인' 설정 후 정보를 입력해보셨습니까?",p:"건물관리 > 호실 > 임차인 정보"},
+    {l:"계약 기간(시작일·종료일)을 입력해보셨습니까?",p:"건물관리 > 호실 > 계약서 정보"},
+    {l:"보증금·임대료·관리비 금액 및 옵션을 입력해보셨습니까?",p:"건물관리 > 호실 > 계약서 정보"},
     {l:"납부기한·납부조건·납부계좌를 설정해보셨습니까?",p:"건물관리 > 호실 > 계약서 정보"},
-    {l:"계약서 파일(이미지·PDF)을 업로드해보셨습니까?",p:"건물관리 > 호실 > 계약서 정보 > 파일 업로드"},
+    {l:"계약서 파일(이미지·PDF)을 업로드 해보셨습니까?",p:"건물관리 > 호실 > 계약서 정보 > 파일 업로드"},
+    {l:"렌트프리 설정을 해보셨습니까?",p:""},
     {l:"퇴실청소비·홈즈멤버십 등의 필요 항목(계약사용자설정항목)을 입력해보셨습니까?",p:"건물관리 > 계약서 정보 > 추가 정보"},
     {l:"임대비용 관리 탭에서 월별 임대료·관리비 내역이 정상 생성되는지 확인하셨습니까?",p:"건물관리 > 호실 > 임대비용관리"},
-    {l:"계약만료 건에 대해 갱신 또는 퇴실 처리를 진행해보셨습니까?",p:"건물관리 > 건물 전체 현황 > 계약만료"},
+    {l:"계약만료예정 또는 계약만료건에 대해 갱신 또는 퇴실 처리를 진행해보셨습니까?",p:"건물관리 > 건물 전체 현황 > 계약만료"},
     {l:"중도 퇴실 처리가 완료된 건의 상태를 확인하셨습니까?",p:"건물관리 > 호실 > 현재 계약 중도 퇴실"},
   ]},
   {title:"유지관리",color:"#0F6E56",items:[
-    {l:"현재 업체 계약 목록이 최신 상태로 등록되어 있는지 확인하셨습니까?",p:"유지관리 > 업체 > 현재 업체"},
-    {l:"만료 임박 업체 계약 갱신 처리를 해보셨습니까?",p:"유지관리 > 업체 > 갱신 알림"},
-    {l:"종료된 업체 계약이 종료 업체 탭으로 이동되었는지 확인하셨습니까?",p:"유지관리 > 업체 > 종료 업체"},
+    {l:"계약 업체 등록을 해보셨습니까?",p:"유지관리 > 업체 > 업체계약 추가"},
     {l:"안전 관리자 정보를 등록·최신화해보셨습니까?",p:"유지관리 > 안전 관리자"},
+    {l:"종료된 업체 계약이 종료 업체 탭으로 이동되었는지 확인하셨습니까?",p:"유지관리 > 업체 > 종료 업체"},
     {l:"업체별 담당자 연락처가 정확히 입력되어 있는지 확인하셨습니까?",p:"유지관리 > 업체 > 상세보기"},
   ]},
   {title:"일정관리",color:"#854F0B",items:[
     {l:"이번 달 입주 시작일·종료일 일정이 캘린더에 정상 생성되는지 확인하셨습니까?",p:"일정관리 > 전체 일정"},
-    {l:"미완료 일정이 없는지 확인하셨습니까?",p:"일정관리 > 미완료 일정"},
-    {l:"수동 등록 일정의 그룹·건물·호실·카테고리를 올바르게 설정해보셨습니까?",p:"일정관리 > 일정 등록"},
-    {l:"임박한 입퇴실 일정을 담당자에게 공유해보셨습니까?",p:"일정관리 > 전체 일정"},
+    {l:"건물·호실·카테고리·내용을 설정하여 일정 등록을 해보셨습니까?",p:"일정관리 > 일정 등록"},
+    {l:"등록한 일정에 관련된 사진 및 파일을 등록해보셨습니까?",p:"일정관리 > 일정 파일 등록"},
   ]},
   {title:"소통관리",color:"#993556",items:[
-    {l:"누락된 공지 건수가 없는지 확인하셨습니까?",p:"소통관리 > 공지 현황"},
-    {l:"요청사항 대기 건을 처리(진행 중·완료)해보셨습니까?",p:"소통관리 > 요청사항 현황"},
     {l:"건물별 공지·요청 현황을 확인하셨습니까?",p:"소통관리 > 건물별 현황"},
+    {l:"새로운 공지를 작성 및 저장을 해보셨습니까?",p:"소통관리 > 공지 현황"},
+    {l:"'나에게 보내기' 기능으로 공지 발송 테스트를 해보셨습니까?",p:"소통관리 > 공지 발송"},
+    {l:"접수된 요청사항을 확인해보셨습니까?",p:"소통관리 > 요청사항 현황"},
+    {l:"요청사항의 답변을 임차인에게 보내보셨습니까?",p:"소통관리 > 요청사항 세부"},
+    {l:"요청사항 대기 건을 처리(진행 중·완료)해보셨습니까?",p:"소통관리 > 요청사항 현황"},
   ]},
   {title:"정산 — 공과금",color:"#3B6D11",items:[
-    {l:"당월 수도 계량값을 등록해보셨습니까?",p:"정산관리 > 공과금 > 수도"},
+    {l:"필요한 공과금 항목을 설정 해보셨습니까?",p:"정산관리 > 공과금 > 공과금 항목 설정"},
     {l:"홈즈멤버십·주차요금·전기 등 항목별 공과금을 부과해보셨습니까?",p:"정산관리 > 공과금"},
-    {l:"안분 계산 방식을 올바르게 설정해보셨습니까?",p:"정산관리 > 공과금 > 안분 계산"},
-    {l:"공과금 수도 내역 이상 값을 확인하셨습니까?",p:"정산관리 > 공과금 > 수도 내역 조회"},
+    {l:"안분 계산 방식을 올바르게 설정해보셨습니까?",p:"정산관리 > 공과금 > 안분기준"},
   ]},
   {title:"정산 — 청구서",color:"#3B6D11",items:[
-    {l:"당월 청구서가 전체 임차인 대상으로 생성되는지 확인하셨습니까?",p:"정산관리 > 청구서"},
-    {l:"청구 금액이 계약 금액과 일치하는지 확인하셨습니까?",p:"정산관리 > 청구서 > 청구 금액"},
+    {l:"반복 청구서 생성 및 설정을 해보셨습니까?",p:"정산관리 > 청구서 > 생성 및 설정"},
+    {l:"일회성 청구서 생성 및 설정을 해보셨습니까?",p:"정산관리 > 청구서 > 생성 및 설정"},
     {l:"미발송 청구서를 발송 처리해보셨습니까?",p:"정산관리 > 청구서 > 일괄 발송"},
+    {l:"미발송 청구서를 직접발송처리 해보셨습니까?",p:"정산관리 > 청구서 > 직접 발송 처리"},
     {l:"계약 시작·종료 월의 일할 계산이 올바르게 적용되는지 확인하셨습니까?",p:"정산관리 > 청구서 > 편집"},
   ]},
-  {title:"정산 — 세금계산서·보증금·수납",color:"#3B6D11",items:[
-    {l:"세금계산서 발행 대상 건에 대해 홈택스 발행 준비를 완료해보셨습니까?",p:"정산관리 > 세금계산서"},
+  {title:"정산 — 보증금·수납",color:"#3B6D11",items:[
     {l:"이번 달 퇴실 건에 대한 보증금 정산서를 작성해보셨습니까?",p:"정산관리 > 보증금정산"},
     {l:"보증금 반환 예정액이 미납·연체금과 정확히 정산되는지 확인하셨습니까?",p:"정산관리 > 보증금정산 > 작성"},
     {l:"발송된 청구서 기준 수납 처리를 완료해보셨습니까?",p:"정산관리 > 수납"},
-    {l:"미납 건에 대한 연체료 설정 및 후속 조치를 해보셨습니까?",p:"정산관리 > 수납 > 연체료 설정"},
     {l:"계좌 연동 자동매칭 결과를 확인하셨습니까?",p:"정산관리 > 수납 > 계좌 연동"},
+    {l:"미매칭된 수납건을 매칭해 보셨습니까?",p:"정산관리 > 수납 > 한번에 수납하기"},
+    {l:"미납 건에 대한 연체료 설정 및 청구서 반영을 해보셨습니까?",p:"정산관리 > 수납 > 연체료 설정/청구서 반영"},
+  ]},
+  {title:"세금계산서",color:"#888780",items:[
+    {l:"세금계산서 발행 대상 건에 대해 홈택스 발행 준비를 완료해보셨습니까?",p:"정산관리 > 세금계산서"},
+    {l:"공급자 정보 설정을 해보셨습니까?",p:"정산관리 > 세금계산서 > 공급자/인증서"},
+    {l:"공동인증서를 등록해보셨습니까?",p:"정산관리 > 세금계산서 > 공급자/인증서"},
+    {l:"공급받는자 정보를 설정 해보셨습니까?",p:"정산관리 > 세금계산서 > 공급 받는자 설정"},
+    {l:"청구서에서 불러오기를 해보셨습니까?",p:"정산관리 > 세금계산서 > 청구서에서 불러오기"},
+    {l:"단건 발행 또는 여러건 발행을 해보셨습니까?",p:"정산관리 > 세금계산서 > 단건 발행/여러건 한번에 발행"},
   ]},
   {title:"데이터 정합성",color:"#444441",items:[
+    {l:"엑셀 일괄 등록 후 데이터 정상 반영 여부를 확인하셨습니까?",p:"건물관리 > 엑셀 등록"},
     {l:"PMS 계약 목록과 실제 운영 현황이 일치하는지 확인하셨습니까?",p:"건물관리 > 건물 전체 현황"},
-    {l:"계약파기·상담대기 등 비활성 상태가 잘못 분류되지 않았는지 확인하셨습니까?",p:"건물관리 > 계약 현황"},
     {l:"중복 등록된 임차인 또는 계약 건이 없는지 확인하셨습니까?",p:"건물관리 전체"},
     {l:"필수 입력 항목 누락이 없는지 확인하셨습니까?",p:"건물관리 > 임차인·계약서 정보"},
-    {l:"엑셀 일괄 등록 후 데이터 정상 반영 여부를 확인하셨습니까?",p:"건물관리 > 엑셀 등록"},
   ]}
 ];
 
@@ -447,7 +481,7 @@ let TOTAL=SECTIONS.reduce((a,s)=>a+s.items.length,0);
 let branch="",bd=mkDef(),saveTimer=null;
 
 function mkDef(){
-  const d={checks:{},issues:{},sectionMemos:{},survey:{likert:{},texts:{}}};
+  const d={checks:{},issues:{},sectionMemos:{},survey:{stars:{},sliders:{},opts:{},texts:{}}};
   SECTIONS.forEach((s,si)=>{
     s.items.forEach((_,ii)=>{d.checks[si+"-"+ii]="none";d.issues[si+"-"+ii]="";});
     d.sectionMemos[si]="";
@@ -472,18 +506,14 @@ function autoSave(){
 function onBranchChange(){
   branch=document.getElementById("bsel").value;
   ["pl-ok","pl-sy","pl-er"].forEach(id=>pill(id,false));
-  if(!branch){
-    document.getElementById("prog").style.display="none";
-    document.getElementById("cl-body").innerHTML="";
-    document.getElementById("survey-wrap").className="survey";
-    return;
-  }
+  if(!branch){document.getElementById("prog").style.display="none";document.getElementById("cl-body").innerHTML="";document.getElementById("survey-wrap").className="survey";return;}
   bd=mkDef();
   document.getElementById("prog").style.display="flex";
-  document.getElementById("survey-wrap").className="survey show";
   const local=localStorage.getItem("bc_"+branch);
-  if(local){try{const p=JSON.parse(local);bd.checks=Object.assign(bd.checks,p.checks||{});bd.issues=Object.assign(bd.issues,p.issues||{});bd.sectionMemos=Object.assign(bd.sectionMemos,p.sectionMemos||{});if(p.survey){bd.survey.likert=Object.assign({},p.survey.likert||{});bd.survey.texts=Object.assign({},p.survey.texts||{});}}catch(e){}}
-  renderCL();updateProg();restoreSurvey();
+  if(local){try{const p=JSON.parse(local);bd.checks=Object.assign(bd.checks,p.checks||{});bd.issues=Object.assign(bd.issues,p.issues||{});bd.sectionMemos=Object.assign(bd.sectionMemos,p.sectionMemos||{});}catch(e){}}
+  renderCL();updateProg();
+  document.getElementById("survey-wrap").className="survey show";
+  restoreSurvey();
   pill("pl-sy",true);
   fetch(GAS+"?t="+Date.now()).then(r=>r.json()).then(rows=>{
     pill("pl-sy",false);
@@ -492,7 +522,7 @@ function onBranchChange(){
       bd.checks=Object.assign(bd.checks,found.checks||{});
       bd.issues=Object.assign(bd.issues,found.issues||{});
       bd.sectionMemos=Object.assign(bd.sectionMemos,found.sectionMemos||{});
-      if(found.survey){bd.survey.likert=Object.assign({},found.survey.likert||{});bd.survey.texts=Object.assign({},found.survey.texts||{});}
+      if(found.survey) bd.survey=Object.assign(bd.survey,found.survey);
       renderCL();updateProg();restoreSurvey();pill("pl-ok",true);setTimeout(()=>pill("pl-ok",false),2000);
     }
   }).catch(()=>pill("pl-sy",false));
@@ -538,6 +568,43 @@ function renderCL(){
     </div>
     </div>`;
     body.appendChild(el);
+  });
+}
+
+
+/* ══ 설문 ══ */
+const LIKERT_IDS = ['1','2','3','4'];
+
+function setLikert(qid, val){
+  if(!bd.survey) bd.survey={likert:{},texts:{}};
+  if(!bd.survey.likert) bd.survey.likert={};
+  bd.survey.likert[qid]=val;
+  document.querySelectorAll('#lk-'+qid+' .lk-btn').forEach((btn,i)=>{
+    btn.classList.toggle('on', i+1===val);
+  });
+  scheduleAutoSave();
+}
+
+function onSurveyText(qid, val){
+  if(!bd.survey) bd.survey={likert:{},texts:{}};
+  if(!bd.survey.texts) bd.survey.texts={};
+  bd.survey.texts[qid]=val;
+  scheduleAutoSave();
+}
+
+function restoreSurvey(){
+  if(!bd.survey) return;
+  const sv=bd.survey;
+  // 리커트
+  Object.entries(sv.likert||{}).forEach(([qid,val])=>{
+    document.querySelectorAll('#lk-'+qid+' .lk-btn').forEach((btn,i)=>{
+      btn.classList.toggle('on', i+1===val);
+    });
+  });
+  // 주관식
+  Object.entries(sv.texts||{}).forEach(([qid,val])=>{
+    const el=document.getElementById('sq-'+qid);
+    if(el) el.value=val;
   });
 }
 
@@ -596,24 +663,6 @@ function updateProg(){
   document.getElementById("p-left").textContent=left;
   document.getElementById("pct-t").textContent=pct+"%";
   document.getElementById("pbar").style.width=pct+"%";
-}
-
-/* ══ 설문 ══ */
-function setLikert(qid,val){
-  bd.survey.likert[qid]=val;
-  document.querySelectorAll(`#lk-${qid} .lk-btn`).forEach((btn,i)=>{btn.className="lk-btn"+(i+1===val?" on":"");});
-  scheduleAutoSave();
-}
-function onSurveyText(qid,val){bd.survey.texts[qid]=val;scheduleAutoSave();}
-function restoreSurvey(){
-  [1,2,3,4].forEach(qid=>{
-    const val=bd.survey.likert[qid];
-    if(val)document.querySelectorAll(`#lk-${qid} .lk-btn`).forEach((btn,i)=>{btn.className="lk-btn"+(i+1===val?" on":"");});
-  });
-  const el5=document.getElementById("sq-5");
-  if(el5)el5.value=bd.survey.texts[5]||"";
-  const el6=document.getElementById("sq-6");
-  if(el6)el6.value=bd.survey.texts[6]||"";
 }
 
 /* ══ 관리자 ══ */
@@ -719,27 +768,6 @@ function buildInsights(rows){
   return cards;
 }
 
-function buildSurveyCard(rows){
-  const submitted=rows.filter(r=>r.survey&&Object.keys(r.survey.likert||{}).length>0);
-  if(submitted.length===0)return`<div class="tc"><div class="tc-hd">만족도 설문 <span class="tc-sub">아직 응답 없음</span></div><div class="empty">제출된 설문 응답이 없습니다.</div></div>`;
-  const qLabels={1:"PMS 효율성",2:"업무 속도 개선",3:"반복 업무 감소",4:"전반적 만족도"};
-  const colors=["#ef4444","#f97316","#eab308","#84cc16","#22c55e"];
-  const lkRows=Object.entries(qLabels).map(([qid,label])=>{
-    const vals=submitted.map(r=>Number(r.survey.likert[qid])).filter(v=>v);
-    if(!vals.length)return`<tr><td>${label}</td><td colspan="3" style="color:var(--t3)">응답 없음</td></tr>`;
-    const avg=(vals.reduce((a,v)=>a+v,0)/vals.length).toFixed(1);
-    const dist=[1,2,3,4,5].map(v=>vals.filter(x=>x===v).length);
-    const bars=dist.map((cnt,i)=>`<span title="${i+1}점 ${cnt}명" style="display:inline-block;width:${cnt>0?Math.max(Math.round(cnt/vals.length*80),6):0}px;height:8px;background:${colors[i]};border-radius:2px;"></span>`).join("");
-    return`<tr><td style="font-weight:500">${label}</td><td><div style="display:flex;gap:2px;align-items:center">${bars}</div></td><td style="font-weight:600;color:var(--grm)">${avg}점</td><td style="color:var(--t3)">${vals.length}명</td></tr>`;
-  }).join("");
-  const texts5=submitted.flatMap(r=>{const t=((r.survey.texts)||{})[5]||"";return t.trim()?[{branch:r.branch,text:t}]:[];});
-  const texts6=submitted.flatMap(r=>{const t=((r.survey.texts)||{})[6]||"";return t.trim()?[{branch:r.branch,text:t}]:[];});
-  const textHtml=
-    (texts5.length===0?"":(`<div class="tc-hd" style="border-top:1px solid var(--bd)">개선 의견 <span class="tc-sub">${texts5.length}건</span></div><div class="il-wrap">${texts5.map(x=>`<div class="il-item"><div class="il-br">${x.branch}</div><div class="il-tx">${x.text}</div></div>`).join("")}</div>`)) +
-    (texts6.length===0?"":(`<div class="tc-hd" style="border-top:1px solid var(--bd)">만족한 점 <span class="tc-sub">${texts6.length}건</span></div><div class="il-wrap">${texts6.map(x=>`<div class="il-item"><div class="il-br">${x.branch}</div><div class="il-tx">${x.text}</div></div>`).join("")}</div>`));
-  return`<div class="tc"><div class="tc-hd">만족도 설문 <span class="tc-sub">${submitted.length}/${BRANCHES.length}개 지점 응답</span></div><table><thead><tr><th>문항</th><th>분포</th><th>평균</th><th>응답</th></tr></thead><tbody>${lkRows}</tbody></table>${textHtml}</div>`;
-}
-
 function renderAdmin(rows){
   const now=new Date().toLocaleString("ko-KR",{month:"short",day:"numeric",hour:"2-digit",minute:"2-digit"});
   document.getElementById("adm-sub").textContent=now+" 기준 · "+rows.length+"/"+BRANCHES.length+"개 지점 제출";
@@ -827,8 +855,90 @@ function renderAdmin(rows){
     ).join("");
   const issCard=`<div class="tc"><div class="tc-hd">이슈 목록 <span class="tc-sub">항목 이슈 + 섹션 메모</span></div><div class="il-wrap">${issHtml}</div></div>`;
 
-  const surveyCard=buildSurveyCard(rows);
-  document.getElementById("adm-body").innerHTML=stats+insHtml+branchTable+sana+surveyCard+issCard;
+  // 설문 결과
+  const surveyCard = buildSurveyCard(rows);
+
+  document.getElementById("adm-body").innerHTML=stats+insHtml+branchTable+sana+issCard+surveyCard;
+}
+
+function buildSurveyCard(rows){
+  const submitted=rows.filter(r=>r.survey&&(r.survey.likert||r.survey.texts));
+  if(submitted.length===0) return `<div class="tc"><div class="tc-hd">만족도 설문 결과 <span class="tc-sub">아직 응답 없음</span></div><div class="empty">제출된 설문 응답이 없습니다.</div></div>`;
+
+  const LABELS=['','매우 그렇지 않다','그렇지 않다','보통','그렇다','매우 그렇다'];
+  const QNAMES={
+    '1':'업무 효율성',
+    '2':'업무 처리 속도 개선',
+    '3':'반복 업무 감소',
+    '4':'전반적인 만족도'
+  };
+
+  // 리커트 집계 함수
+  function likertStats(qid){
+    const vals=submitted.map(r=>(r.survey.likert||{})[qid]).filter(v=>v);
+    if(!vals.length) return null;
+    const avg=(vals.reduce((a,b)=>a+b,0)/vals.length);
+    const dist=[1,2,3,4,5].map(n=>({n,count:vals.filter(v=>v===n).length}));
+    return{avg,dist,total:vals.length};
+  }
+
+  // 리커트 카드 렌더
+  function likertCard(qid){
+    const s=likertStats(qid);
+    if(!s) return `<div style="color:var(--t3);font-size:12px">응답 없음</div>`;
+    const pct=Math.round((s.avg-1)/4*100);
+    const color=pct>=75?'var(--grm)':pct>=50?'#6366F1':'#F59E0B';
+    const distHtml=s.dist.map(({n,count})=>`
+      <div style="display:flex;align-items:center;gap:6px;margin-bottom:3px">
+        <span style="font-size:10px;color:var(--t3);min-width:60px">${LABELS[n]}</span>
+        <div style="flex:1;height:5px;background:var(--bd);border-radius:3px;overflow:hidden;">
+          <div style="height:100%;background:${color};border-radius:3px;width:${s.total?Math.round(count/s.total*100):0}%"></div>
+        </div>
+        <span style="font-size:10px;color:var(--t3);min-width:20px;text-align:right">${count}명</span>
+      </div>`).join('');
+    return `<div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+      <span style="font-size:22px;font-weight:700;color:${color}">${s.avg.toFixed(1)}</span>
+      <div style="flex:1">
+        <div style="height:8px;background:var(--bd);border-radius:4px;overflow:hidden;margin-bottom:4px">
+          <div style="height:100%;background:${color};border-radius:4px;width:${pct}%"></div>
+        </div>
+        <div style="font-size:10px;color:var(--t3)">${s.total}명 응답 · 5점 만점</div>
+      </div>
+    </div>${distHtml}`;
+  }
+
+  // 리커트 4개 카드
+  const likertGrid=Object.entries(QNAMES).map(([qid,name])=>`
+    <div style="background:var(--bg);border-radius:10px;padding:14px 16px;">
+      <div style="font-size:12px;font-weight:500;color:var(--t2);margin-bottom:10px">Q${qid}. ${name}</div>
+      ${likertCard(qid)}
+    </div>`).join('');
+
+  // 주관식 Q5, Q6
+  const q5texts=submitted.map(r=>{
+    const t=((r.survey.texts||{})['5']||'').trim();
+    return t?`<div class="il-item"><div class="il-br">${r.branch}</div><div class="il-tx">${t}</div></div>`:'';
+  }).filter(Boolean).join('');
+
+  const q6texts=submitted.map(r=>{
+    const t=((r.survey.texts||{})['6']||'').trim();
+    return t?`<div class="il-item"><div class="il-br">${r.branch}</div><div class="il-tx">${t}</div></div>`:'';
+  }).filter(Boolean).join('');
+
+  return `<div class="tc">
+    <div class="tc-hd">만족도 설문 결과 <span class="tc-sub">${submitted.length}/${BRANCHES.length}개 지점 응답</span></div>
+    <div style="padding:18px 20px;display:flex;flex-direction:column;gap:16px;">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">${likertGrid}</div>
+      ${q6texts?`<div>
+        <div style="font-size:12px;font-weight:500;color:var(--grm);margin-bottom:8px">Q6. 가장 만족스러운 점 (주관식)</div>
+        <div class="il-wrap" style="border-radius:8px">${q6texts}</div>
+      </div>`:''}
+      ${q5texts?`<div>
+        <div style="font-size:12px;font-weight:500;color:var(--am);margin-bottom:8px">Q5. 불편하거나 개선이 필요한 점 (주관식)</div>
+        <div class="il-wrap" style="border-radius:8px">${q5texts}</div>
+      </div>`:''}
+    </div>
+  </div>`;
 }
 
 /* ══ 비밀번호 ══ */
@@ -857,16 +967,12 @@ function renderEditor(){
     <div class="ed-sec" id="edsec-${si}">
       <div class="ed-sec-hd">
         <div class="sec-dot" style="background:${sec.color};flex-shrink:0"></div>
-        <button class="ed-move-btn" onclick="edMoveSec(${si},-1)">↑</button>
-        <button class="ed-move-btn" onclick="edMoveSec(${si},1)">↓</button>
         <input class="ed-sec-name" value="${sec.title}" oninput="edSecs[${si}].title=this.value" placeholder="섹션 이름">
         <input type="color" value="${sec.color}" oninput="edSecs[${si}].color=this.value;this.previousElementSibling.previousElementSibling.style.background=this.value" style="width:28px;height:22px;border:none;background:none;cursor:pointer;padding:0;">
         <button class="ed-del-sec" onclick="edDelSec(${si})">섹션 삭제</button>
       </div>
       ${sec.items.map((item,ii)=>`
         <div class="ed-item-row">
-          <button class="ed-move-btn" onclick="edMoveItem(${si},${ii},-1)">↑</button>
-          <button class="ed-move-btn" onclick="edMoveItem(${si},${ii},1)">↓</button>
           <input class="ed-item-lbl" value="${item.l}" oninput="edSecs[${si}].items[${ii}].l=this.value" placeholder="항목 내용">
           <input class="ed-item-path" value="${item.p}" oninput="edSecs[${si}].items[${ii}].p=this.value" placeholder="메뉴 경로">
           <button class="ed-del-item" onclick="edDelItem(${si},${ii})">×</button>
@@ -874,8 +980,6 @@ function renderEditor(){
       <div class="ed-add-item"><button onclick="edAddItem(${si})">+ 항목 추가</button></div>
     </div>`).join("");
 }
-function edMoveSec(si,dir){const ni=si+dir;if(ni<0||ni>=edSecs.length)return;[edSecs[si],edSecs[ni]]=[edSecs[ni],edSecs[si]];renderEditor();}
-function edMoveItem(si,ii,dir){const ni=ii+dir;if(ni<0||ni>=edSecs[si].items.length)return;[edSecs[si].items[ii],edSecs[si].items[ni]]=[edSecs[si].items[ni],edSecs[si].items[ii]];renderEditor();}
 function edDelSec(si){if(!confirm("섹션 전체를 삭제합니까?"))return;edSecs.splice(si,1);renderEditor();}
 function edDelItem(si,ii){edSecs[si].items.splice(ii,1);renderEditor();}
 function edAddItem(si){
